@@ -1,8 +1,5 @@
 pipeline {
-    agent {
-        label 'wsl'
-    }
-
+    agent any
     stages {
         stage('Checkout Source') {
             steps {
@@ -15,6 +12,9 @@ pipeline {
             }
         }
         stage('Build & Push Image') {
+            agent {
+                label 'wsl'
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com/v1/', 'docker') {
