@@ -1,14 +1,13 @@
-# Use an official OpenJDK runtime as a base image
-FROM openjdk:11-jre-slim
-
-# Set the working directory inside the container
+# Stage 1: Build the application
+FROM maven:3.8.4-openjdk-11 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
 
-# Copy the Spring Boot JAR file into the container at /app
-COPY target/spring-petclinic-3.1.0-SNAPSHOT.jar /app/spring-petclinic.jar
-
-# Expose the port that the Spring Boot application will run on
+# Stage 2: Create the final image
+FROM openjdk:11-jre-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Specify the command to run on container start
-CMD ["java", "-jar", "your-spring-boot-app.jar"]
+CMD ["java", "-jar", "app.jar"]
