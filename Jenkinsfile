@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'wsl'
+    }
 
     stages {
         stage('Checkout Source') {
