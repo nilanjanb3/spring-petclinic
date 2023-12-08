@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the Spring Boot JAR file into the container at /app
-COPY target/*.jar /app/spring-petclinic.jar
+COPY target/spring-petclinic-3.1.0-SNAPSHOT.jar /app/spring-petclinic.jar
 
 # Expose the port that the Spring Boot application will run on
 EXPOSE 8080
