@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'wsl'
+    }
     stages {
         stage('Checkout Source') {
             steps {
@@ -12,12 +14,9 @@ pipeline {
             }
         }
         stage('Build & Push Image') {
-            agent {
-                label 'wsl'
-            }
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com/v1/', 'docker') {
+                    docker.withRegistry('https://registry.hub.docker.com/v1/', 'nilanjanb3-docker') {
                         docker.build('nilanjanb3/spring-petclinic').push('${BUILD_NUMBER}')
                     }
                 }
@@ -26,7 +25,7 @@ pipeline {
         }
         stage('Delete Source') {
             steps {
-                sh 'cd .. && rm -rf spring-petclinic'
+                sh 'cd .. && rm -rf spring-petclinic/'
             }
         }
     }
