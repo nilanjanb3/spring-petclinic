@@ -17,16 +17,13 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com/v1/', 'nilanjanb3-docker') {
-                        docker.build('nilanjanb3/spring-petclinic').push('${BUILD_NUMBER}')
+                        def dockerBuild = docker.build('nilanjanb3/spring-petclinic')
+                        dockerBuild.push("${BUILD_NUMBER}")
+                        dockerBuild.push("latest")
                     }
                 }
             }
             
-        }
-        stage('Delete Source') {
-            steps {
-                sh 'cd .. && rm -rf spring-petclinic/'
-            }
         }
     }
 }
