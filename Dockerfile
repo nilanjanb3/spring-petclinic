@@ -1,4 +1,4 @@
-FROM openjdk:11-ea-17-jre-slim
+FROM openjdk:22-ea-19-slim-bullseye
 WORKDIR /app
 COPY target/*.jar app.jar
 EXPOSE 8080
